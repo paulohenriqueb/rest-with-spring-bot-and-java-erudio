@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import paulohenrique.rest.data.vo.v1.PersonVO;
+import paulohenrique.rest.data.vo.v2.PersonVOV2;
 import paulohenrique.rest.exceptions.ResourceNotFoundException;
 import paulohenrique.rest.mapper.DozerMapper;
+import paulohenrique.rest.mapper.custom.PersonMapper;
 import paulohenrique.rest.model.Person;
 import paulohenrique.rest.repositories.PersonRepository;
 
@@ -19,6 +21,9 @@ public class PersonServices {
 	
 	@Autowired
 	PersonRepository personRepository;
+	
+	@Autowired
+	PersonMapper personMapper;
 	
 	public List<PersonVO> findAll() {
 		logger.info("Finding all people!");
@@ -35,6 +40,13 @@ public class PersonServices {
 		logger.info("Creating one person!");
 		var entity = DozerMapper.parseObject(person, Person.class);
 		var vo = DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
+		return vo;
+	}
+	
+	public PersonVOV2 createV2(PersonVOV2 person) {
+		logger.info("Creating one person with V2!");
+		var entity = personMapper.convertVoToEntity(person);
+		var vo = personMapper.convertEntityToVo(personRepository.save(entity));
 		return vo;
 	}
 	
