@@ -25,7 +25,7 @@ import paulohenrique.rest.services.PersonServices;
 
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("api/person/v1")
 public class PersonController {
 	
 	@Autowired
