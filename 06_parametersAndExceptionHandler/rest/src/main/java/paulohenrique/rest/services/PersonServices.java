@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import paulohenrique.rest.controllers.PersonController;
 import paulohenrique.rest.data.vo.v1.PersonVO;
 import paulohenrique.rest.exceptions.ResourceNotFoundException;
+import paulohenrique.rest.exceptions.RequiredObjectIsNullException;
+
 import paulohenrique.rest.mapper.DozerMapper;
 import paulohenrique.rest.model.Person;
 import paulohenrique.rest.repositories.PersonRepository;
@@ -46,6 +48,9 @@ public class PersonServices {
 	}
 	
 	public PersonVO create(PersonVO person) {
+		if(person == null) {
+			throw new RequiredObjectIsNullException(); 
+		}
 		logger.info("Creating one person!");
 		var entity = DozerMapper.parseObject(person, Person.class);
 		PersonVO personVo = DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
@@ -54,6 +59,9 @@ public class PersonServices {
 	}
 	
 	public PersonVO update(PersonVO person) {
+		if(person == null) {
+			throw new RequiredObjectIsNullException(); 
+		}
 		logger.info("Uppdating one person!");
 		var entity = personRepository.findById(person.getKey())
 			.orElseThrow(()-> new ResourceNotFoundException("Error"));
