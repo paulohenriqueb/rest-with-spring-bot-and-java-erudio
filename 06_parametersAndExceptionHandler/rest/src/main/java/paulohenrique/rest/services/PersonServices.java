@@ -51,7 +51,9 @@ public class PersonServices {
 		if(person == null) {
 			throw new RequiredObjectIsNullException(); 
 		}
+		
 		logger.info("Creating one person!");
+		
 		var entity = DozerMapper.parseObject(person, Person.class);
 		PersonVO personVo = DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
 		personVo.add(linkTo(methodOn(PersonController.class).findById(personVo.getKey())).withSelfRel());
