@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import paulohenrique.rest.util.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +29,7 @@ import paulohenrique.rest.services.PersonServices;
 
 
 
-
+//@CrossOrigin
 @RestController
 @RequestMapping("api/person/v1")
 @Tag(name="People", description = "Endpoints for managing people")
@@ -77,7 +78,7 @@ public class PersonController {
 	public List<PersonVO> findAll(){
 		return personService.findAll();
 	}
-	
+	@CrossOrigin(origins ="http://localhost:8080")
 	@GetMapping(value = "/{id}", 
 		produces = { 
 			MediaType.APPLICATION_JSON, 
@@ -118,7 +119,7 @@ public class PersonController {
 	public PersonVO findById( @PathVariable(value = "id") Long id){
 		return personService.findById(id);
 	}
-	
+	@CrossOrigin(origins = {"http://localhost:8080", "https://erudio.com.br"})
 	@PostMapping(
 		consumes = { 
 			MediaType.APPLICATION_JSON, 
